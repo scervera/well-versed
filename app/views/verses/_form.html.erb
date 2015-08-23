@@ -1,0 +1,56 @@
+<%= form_for(@verse) do |f| %>
+  <% if @verse.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@verse.errors.count, "error") %> prohibited this verse from being saved:</h2>
+
+      <ul>
+      <% @verse.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :book %><br>
+    <%= f.text_field :book %>
+  </div>
+  <div class="field">
+    <%= f.label :chapter_start %><br>
+    <%= f.number_field :chapter_start %>
+  </div>
+  <div class="field">
+    <%= f.label :chapter_end %><br>
+    <%= f.number_field :chapter_end %>
+  </div>
+  <div class="field">
+    <%= f.label :verse_start %><br>
+    <%= f.number_field :verse_start %>
+  </div>
+  <div class="field">
+    <%= f.label :verse_end %><br>
+    <%= f.number_field :verse_end %>
+  </div>
+  <div class="field">
+    <%= f.label :passage %><br>
+    <%= f.text_area :passage %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  var books = [
+      { value: 'Genesis', data: 'Genesis' },
+      { value: 'Exodus', data: 'Exodus' },
+      { value: 'Levitecus', data: 'Levitecus' }
+  ];
+  
+  $('#book').autocomplete({
+    lookup: books,
+    onSelect: function (suggestion) {
+        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    }
+  });
+</script>

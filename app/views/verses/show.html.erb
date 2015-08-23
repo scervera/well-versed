@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Book:</strong>
+  <%= @verse.book %>
+</p>
+
+<p>
+  <strong>Chapter start:</strong>
+  <%= @verse.chapter_start %>
+</p>
+
+<p>
+  <strong>Chapter end:</strong>
+  <%= @verse.chapter_end %>
+</p>
+
+<p>
+  <strong>Verse start:</strong>
+  <%= @verse.verse_start %>
+</p>
+
+<p>
+  <strong>Verse end:</strong>
+  <%= @verse.verse_end %>
+</p>
+
+<p>
+  <strong>Passage:</strong>
+  <%= @verse.passage %>
+</p>
+
+<%= link_to 'Edit', edit_verse_path(@verse) %> |
+<%= link_to 'Back', verses_path %>
