@@ -1,0 +1,59 @@
+{book: [
+        {
+          "name":"Genesis",
+          "book_id": 1, 
+          "num_chapters" : 50,
+          "chapters": [
+            {
+              "chapter_nbr": 1,
+              "num_verses": 31
+            },
+            {
+              "chapter_nbr": 2,
+              "num_verses": 25
+            },
+            {
+              "chapter_nbr": 3,
+              "num_verses": 24
+            }]
+        },
+        {
+          "name":"Exodus",
+          "book_id": 2, 
+          "num_chapters" : 40,
+          "chapters": [
+            {
+              "chapter_nbr": 1,
+              "num_verses": 22
+            },
+            {
+              "chapter_nbr": 2,
+              "num_verses": 25
+            },
+            {
+              "chapter_nbr": 3,
+              "num_verses": 22
+            }]
+        },
+        {
+          "name":"Leviticus",
+          "book_id": 3, 
+          "num_chapters" : 27,
+          "chapters": [
+            {
+              "chapter_nbr": 1,
+              "num_verses": 17
+            },
+            {
+              "chapter_nbr": 2,
+              "num_verses": 16
+            },
+            {
+              "chapter_nbr": 3,
+              "num_verses": 17
+            }]
+        }
+  ]
+}
+
+			
