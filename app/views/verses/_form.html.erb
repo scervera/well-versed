@@ -13,11 +13,13 @@
 
   <div class="field">
     <%= f.label :book %><br>
-    <%= f.text_field :book %>
+    <select id="book">
+      <option selected="selected">Select Book</option>
+    </select>
   </div>
   <div class="field">
-    <%= f.label :chapter_start %><br>
-    <%= f.number_field :chapter_start %>
+    <%= f.label :starting_chapter %><br>
+    <select id="chapter_start"></select>
   </div>
   <div class="field">
     <%= f.label :chapter_end %><br>
@@ -41,16 +43,56 @@
 <% end %>
 
 <script type="text/javascript">
-  var books = [
-      { value: 'Genesis', data: 'Genesis' },
-      { value: 'Exodus', data: 'Exodus' },
-      { value: 'Levitecus', data: 'Levitecus' }
-  ];
+$( document ).ready(function() {
+  //get a reference to the select element
+  $book = $('#book');
+
+    //request the JSON data and parse into the select element
+    $.ajax({
+      url: '/assets/bible.json',
+      dataType:'JSON',
+      success:function(data){
+        //clear the current content of the select
+        $book.html('');
+        //iterate over the data and append a select option
+        $.each(data.bible.books, function(key, val){
+          $book.append('<option value="' + val.id + '" id="' + val.id + '">' + val.name + '</option>');
+        })
+        
+      },
+      error:function(){
+        //if there is an error append a 'none available' option
+        $book.html('<option id="-1">none available</option>');
+      }
+      });
+
+  // Cascade options for chapter_start
+  $('#book').change(function() {
+    var e = document.getElementById("book");
+    var selected_book = e.options[e.selectedIndex].value;
+    console.log("This book was selected: " + selected_book);
+
+  //get a reference to the select element
+    $chapter_start = $('#chapter_start');
+  //request the JSON data and parse into the select element
+    $.ajax({
+      url: '/assets/bible.json',
+      dataType:'JSON',
+      success:function(data){
+        //clear the current content of the select
+        $chapter_start.html('');
   
-  $('#book').autocomplete({
-    lookup: books,
-    onSelect: function (suggestion) {
-        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-    }
-  });
+        $num_chapters = data.bible.books[selected_book].num_chapters;
+        //iterate over the data and append a select option
+        for (i = 1; i <= $num_chapters; i++) {
+          $chapter_start.append('<option id="' + i + '">' + i + '</option>');
+        }
+      },
+      error:function(){
+        //if there is an error append a 'none available' option
+        $chapter_start.html('<option id="-1">none available</option>');
+      }
+    });
+  })
+})
 </script>
