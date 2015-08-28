@@ -19,19 +19,21 @@
   </div>
   <div class="field">
     <%= f.label :starting_chapter %><br>
-    <select id="chapter_start"></select>
+    <select id="chapter_start">
+      <option selected="selected">Select Chapter</option>
+    </select>
   </div>
   <div class="field">
-    <%= f.label :chapter_end %><br>
-    <%= f.number_field :chapter_end %>
+    <%= f.label :starting_verse %><br>
+    <select id="verse_start">
+      <option selected="selected">Select Verse Start</option>
+    </select>
   </div>
   <div class="field">
-    <%= f.label :verse_start %><br>
-    <%= f.number_field :verse_start %>
-  </div>
-  <div class="field">
-    <%= f.label :verse_end %><br>
-    <%= f.number_field :verse_end %>
+    <%= f.label :ending_verse %><br>
+    <select id="verse_end">
+      <option selected="selected">Select Verse End</option>
+    </select>
   </div>
   <div class="field">
     <%= f.label :passage %><br>
@@ -44,7 +46,7 @@
 
 <script type="text/javascript">
 $( document ).ready(function() {
-  //get a reference to the select element
+  //get a reference to the primary select element
   $book = $('#book');
 
     //request the JSON data and parse into the select element
@@ -66,7 +68,7 @@ $( document ).ready(function() {
       }
       });
 
-  // Cascade options for chapter_start
+// Cascade options for chapter_start
   $('#book').change(function() {
     var e = document.getElementById("book");
     var selected_book = e.options[e.selectedIndex].value;
@@ -85,12 +87,54 @@ $( document ).ready(function() {
         $num_chapters = data.bible.books[selected_book].num_chapters;
         //iterate over the data and append a select option
         for (i = 1; i <= $num_chapters; i++) {
-          $chapter_start.append('<option id="' + i + '">' + i + '</option>');
+          // $chapter_start.append('<option id="' + i + '">' + i + '</option>');
+          $chapter_start.append('<option value="' + i + '" id="' + i + '">' + i + '</option>');
         }
       },
       error:function(){
         //if there is an error append a 'none available' option
         $chapter_start.html('<option id="-1">none available</option>');
+      }
+    });
+  })
+  
+  // Cascade options for verse_start
+  // Get the value of the chapter_start
+  $('#chapter_start').change(function() {
+    var e = document.getElementById("chapter_start");
+    var selected_chapter = e.options[e.selectedIndex].value;
+    console.log("This chapter was selected: " + selected_chapter);
+    
+  //Now get the value of the selected book.
+    var e = document.getElementById("book");
+    var selected_book = e.options[e.selectedIndex].value;
+    console.log("This book was selected: " + selected_book);
+
+  //get a reference to the select element
+    $verse_start = $('#verse_start');
+    $verse_end = $('#verse_end');
+  //request the JSON data and parse into the select element
+    $.ajax({
+      url: '/assets/bible.json',
+      dataType:'JSON',
+      success:function(data){
+        //clear the current content of the select
+        $verse_start.html('');
+        $verse_end.html('');
+        console.log("The value of selected_chapter is " + selected_chapter);
+        $chapter_index = selected_chapter;
+        $num_verses = data.bible.books[selected_book].chapters[$chapter_index].num_verses;
+        console.log("The value of num_verses is " + $num_verses);
+        //iterate over the data and append a select option
+        for (i = 1; i <= $num_verses; i++) {
+          $verse_start.append('<option id="' + i + '">' + i + '</option>');
+          $verse_end.append('<option id="' + i + '">' + i + '</option>');
+        }
+      },
+      error:function(){
+        //if there is an error append a 'none available' option
+        $verse_start.html('<option id="-1">none available</option>');
+        $verse_end.html('<option id="-1">none available</option>');
       }
     });
   })
